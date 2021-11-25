@@ -74,4 +74,3 @@ setup(
         "Intended Audience :: Developers",
     ],
 )
-
