@@ -2,31 +2,19 @@ PYTHON ?= python
 PIP ?= pip
 CYTHON ?= cython
 
-_default: compile
+_default: install
 
 clean:
 	rm -fr emcache/_cython/*.c emcache/_cython/*.so build dist
 	find . -name '__pycache__' | xargs rm -rf
 	find . -type f -name "*.pyc" -delete
 
-.install-cython:
-	$(PIP) install Cython==0.29.18
-	touch .install-cython
-
-emcache/_cython/cyemcache.c: emcache/_cython/cyemcache.pyx
-	$(CYTHON) -3 -o $@ $< -I emcache
-
-cythonize: .install-cython emcache/_cython/cyemcache.c
-
-setup-build:
-	$(PYTHON) setup.py build_ext --inplace
-
-compile: clean cythonize setup-build
-
-install-dev: compile
+install-dev: clean
+	$(PIP) install Cython==0.29.21
 	$(PIP) install -e ".[dev]"
 
-install: compile
+install:
+	$(PIP) install Cython==0.29.21
 	$(PIP) install -e .
 
 format:
@@ -62,4 +50,4 @@ doc:
 	make -C docs/ html
 
 
-.PHONY: clean setup-build install install-dev compile unit test acceptance stress
+.PHONY: clean install install-dev unit test acceptance stress

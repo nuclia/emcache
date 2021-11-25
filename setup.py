@@ -16,7 +16,7 @@ MURMUR3_DIR = os.path.join(os.path.dirname(__file__), "vendor", "murmur3")
 extensions = [
     Extension(
         "emcache._cython.cyemcache",
-        sources=["emcache/_cython/cyemcache.c"],
+        sources=["emcache/_cython/cyemcache.pyx"],
         include_dirs=[MURMUR3_DIR],
         library_dirs=[MURMUR3_DIR],
         libraries=["murmur3"],
@@ -24,7 +24,7 @@ extensions = [
 ]
 
 dev_requires = [
-    "Cython==0.29.18",
+    "Cython==0.29.21",
     "pytest==5.4.1",
     "pytest-mock==3.1.0",
     "pytest-asyncio==0.11.0",
@@ -57,6 +57,7 @@ setup(
     author_email="pfreixes@gmail.com",
     platforms=["*nix"],
     packages=["emcache"],
+    setup_requires=["setuptools>=18.0", "cython"],
     ext_modules=extensions,
     extras_require={"dev": dev_requires},
     classifiers=[
